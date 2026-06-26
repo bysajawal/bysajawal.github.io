@@ -367,10 +367,10 @@ footer span{color:var(--lime)}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ── SHEETS CONFIG ── Edit SHEET_ID and SHEET_NAME after setup ── */
-const const SHEET_ID = '1UeiqxIsFWDwWsS8ST2glvZjspHmWWPDEguR52UQf16k';
+/* ── /* ── SHEETS CONFIG ── */
+const SHEET_ID   = '1UeiqxIsFWDwWsS8ST2glvZjspHmWWPDEguR52UQf16k';
 const SHEET_NAME = 'Sheet1';
-const SHEETS_URL = `https://docs.google.com/spreadsheets/d/${}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent()}`;
+const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(SHEET_NAME);
 
 /* ── CURSOR ── */
 const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
