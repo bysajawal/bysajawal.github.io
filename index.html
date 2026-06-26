@@ -101,7 +101,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 32px;height:54px;d
 /* GRID */
 .vgrid{display:grid;gap:14px;transition:opacity .25s}
 .vgrid.long{grid-template-columns:repeat(3,1fr)}
-.vgrid.short{grid-template-columns:repeat(4,1fr)}
+.vgrid.short{grid-template-columns:repeat(4,minmax(0,220px))}
 
 /* VIDEO CARD */
 .vc{border-radius:var(--r);overflow:hidden;cursor:pointer;background:var(--bg2);border:1px solid var(--border);transition:transform .22s,border-color .22s,box-shadow .22s;position:relative}
@@ -339,7 +339,7 @@ footer span{color:var(--lime)}
     <div class="sec-title" style="text-align:center;margin-bottom:8px">Got a project?</div>
     <p style="font-size:13px;color:var(--t2);text-align:center">Available for freelance, brand collabs, and long-term partnerships.</p>
     <a class="c-email" href="mailto:sajawal@email.com">sajawal@email.com</a>
-   <a class="btn-p" href="https://wa.me/923160602975" target="_blank" style="display:inline-block;font-size:13px;padding:12px 28px">💬 Start a conversation</a>
+   <a class="btn-p" href="https://wa.me/923160602975" target="_blank" rel="noopener" style="display:inline-block;font-size:13px;padding:12px 28px">💬 Start a conversation</a>
     <div class="c-chips">
       <div class="c-chip"><div class="c-chip-l">Location</div><div class="c-chip-v">Pakistan</div></div>
       <div class="c-chip"><div class="c-chip-l">Availability</div><div class="c-chip-v" style="color:var(--lime)">Open to work ✓</div></div>
