@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  .c-chip{color:var(--t1)}
+.c-chip:visited{color:var(--t1)}
+.c-chip .c-chip-v{color:var(--t1)}
+  .c-chip{background:var(--bg2);border:1px solid var(--border);padding:10px 16px;border-radius:var(--r);transition:border-color .2s;text-align:left;min-width:0}
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C8FF00'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial Black' font-weight='900' font-size='16' fill='%23000'>MS</text></svg>"/>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <meta charset="UTF-8"/>
@@ -144,7 +148,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 32px;height:54px;d
 .contact-wrap{max-width:600px;margin:0 auto;text-align:center}
 .c-email{font-family:'Syne',sans-serif;font-size:clamp(20px,3.5vw,40px);font-weight:800;letter-spacing:-.03em;color:var(--lime);text-decoration:none;display:block;margin:20px 0;transition:opacity .2s}
 .c-email:hover{opacity:.7}
-.c-chips{display:flex;gap:10px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+.c-chips{display:flex;gap:10px;justify-content:center;margin-top:28px;flex-wrap:nowrap}
 .c-chip{background:var(--bg2);border:1px solid var(--border);padding:12px 20px;border-radius:var(--r);transition:border-color .2s;text-align:left}
 .c-chip:hover{border-color:rgba(200,255,0,.2)}
 .c-chip-l{font-size:10px;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px}
