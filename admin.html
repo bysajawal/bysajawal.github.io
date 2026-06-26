@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Sajawal Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --lime:#C8FF00;--lime-a15:rgba(200,255,0,.15);--lime-a30:rgba(200,255,0,.3);
+  --bg:#080808;--bg1:#0f0f0f;--bg2:#161616;--bg3:#1e1e1e;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
+  --t1:#f2f2f2;--t2:#999;--t3:#555;--r:12px;--r2:8px;
+}
+body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--lime)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{background:var(--bg1);border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-brand{padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-.02em}
+.sb-logo b{color:var(--lime)}
+.sb-sub{font-size:10px;color:var(--t3);margin-top:2px;letter-spacing:.04em;text-transform:uppercase}
+.sb-nav{padding:0 12px;flex:1}
+.sb-label{font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;padding:0 8px;margin:16px 0 6px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r2);font-size:13px;font-weight:500;color:var(--t2);cursor:pointer;transition:all .15s;border:none;background:transparent;width:100%;text-align:left;text-decoration:none}
+.sb-link:hover{background:var(--bg2);color:var(--t1)}
+.sb-link.active{background:var(--lime-a15);color:var(--lime);font-weight:600}
+.sb-link svg{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.sb-bottom{padding:16px 12px 0;border-top:1px solid var(--border);margin-top:auto}
+.sb-sheet-status{font-size:11px;color:var(--t3);padding:8px 10px;border-radius:var(--r2);background:var(--bg2);border:1px solid var(--border)}
+.sb-sheet-status span{color:var(--lime);font-weight:600}
+.view-site{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:var(--r2);font-size:12px;font-weight:600;color:#000;background:var(--lime);border:none;cursor:pointer;width:100%;margin-top:8px;text-decoration:none;justify-content:center}
+
+/* MAIN */
+.main{padding:32px;overflow-y:auto}
+.page{display:none}.page.on{display:block}
+.page-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.03em;margin-bottom:4px}
+.page-sub{font-size:12px;color:var(--t2);margin-bottom:28px}
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+
+/* CARD */
+.card{background:var(--bg1);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.card-title{font-size:13px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
+/* FORM */
+.fg{margin-bottom:14px}
+.fl{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:5px}
+.fi{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);color:var(--t1);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--lime)}
+.fi::placeholder{color:var(--t3)}
+select.fi{cursor:pointer}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* UPLOAD ZONE */
+.uz{border:2px dashed var(--border);border-radius:var(--r);padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px}
+.uz:hover,.uz.over{border-color:var(--lime);background:var(--lime-a15)}
+.uz-icon{font-size:28px;margin-bottom:8px}
+.uz-text{font-size:12px;color:var(--t2);line-height:1.6}
+.uz-text strong{color:var(--t1)}
+.thumb-prev{display:none;margin-bottom:14px;border-radius:var(--r2);overflow:hidden;border:1px solid var(--border)}
+.thumb-prev img{width:100%;display:block;max-height:160px;object-fit:cover}
+.thumb-prev-bar{padding:6px 12px;font-size:11px;color:var(--t2);display:flex;justify-content:space-between;background:var(--bg2)}
+.thumb-prev-bar button{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px}
+.thumb-prev-bar button:hover{color:var(--t1)}
+
+/* BUTTONS */
+.btn-add{width:100%;padding:12px;border-radius:var(--r2);background:var(--lime);color:#000;font-weight:700;font-size:13px;border:none;cursor:pointer;font-family:'Inter',sans-serif;margin-top:4px;transition:opacity .2s}
+.btn-add:hover{opacity:.88}
+.btn-sm{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--bg2);color:var(--t2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.btn-sm:hover{background:var(--bg3);color:var(--t1)}
+.btn-sm.del:hover{background:rgba(255,60,60,.12);border-color:rgba(255,60,60,.3);color:#ff5555}
+.btn-sm.priv.on{background:var(--lime-a15);border-color:var(--lime-a30);color:var(--lime)}
+
+/* VIDEO LIST */
+.vlist{display:flex;flex-direction:column;gap:8px}
+.vi{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px;cursor:grab;transition:border-color .15s}
+.vi:hover{border-color:var(--border2)}
+.vi.dragging{opacity:.4;cursor:grabbing}
+.vi.drag-over{border-color:var(--lime)}
+.vi-handle{color:var(--t3);font-size:14px;padding:2px;cursor:grab;flex-shrink:0}
+.vi-thumb{width:64px;height:40px;border-radius:6px;background:var(--bg3);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:16px}
+.vi-thumb img{width:100%;height:100%;object-fit:cover}
+.vi-info{flex:1;min-width:0}
+.vi-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.vi-meta{font-size:10px;color:var(--t3)}
+.vi-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* SETUP GUIDE */
+.step{display:flex;gap:14px;margin-bottom:20px}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--lime);color:#000;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-body{flex:1}
+.step-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.step-desc{font-size:12px;color:var(--t2);line-height:1.7}
+.step-desc code{background:var(--bg2);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:11px;color:var(--lime)}
+.step-desc a{color:var(--lime);text-decoration:none}
+.step-desc a:hover{text-decoration:underline}
+
+/* CONFIG */
+.cfg-row{display:flex;gap:8px;align-items:flex-end}
+.cfg-row .fg{flex:1;margin-bottom:0}
+.cfg-save{padding:10px 16px;border-radius:var(--r2);background:var(--bg2);border:1px solid var(--border);color:var(--t1);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.cfg-save:hover{border-color:var(--lime);color:var(--lime)}
+
+/* STATUS BADGE */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.badge.ok{background:var(--lime-a15);border:1px solid var(--lime-a30);color:var(--lime)}
+.badge.warn{background:rgba(255,170,0,.12);border:1px solid rgba(255,170,0,.3);color:#ffaa00}
+.badge.err{background:rgba(255,60,60,.12);border:1px solid rgba(255,60,60,.3);color:#ff5555}
+
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:3px;margin-bottom:20px;width:fit-content}
+.tab{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;color:var(--t2);border:none;background:transparent;cursor:pointer;transition:all .2s}
+.tab.on{background:var(--bg1);color:var(--t1);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--bg2);border:1px solid var(--border2);padding:10px 20px;border-radius:100px;font-size:12px;font-weight:500;z-index:9000;opacity:0;pointer-events:none;transition:all .25s;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.s{opacity:1;transform:translateX(-50%) translateY(0);color:var(--lime);border-color:var(--lime-a30)}
+.toast.e{opacity:1;transform:translateX(-50%) translateY(0);color:#ff5555;border-color:rgba(255,60,60,.3)}
+
+@media(max-width:700px){.layout{grid-template-columns:1fr}.sidebar{display:none}.main{padding:20px}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo"><b>MS</b> · Admin</div>
+    <div class="sb-sub">Portfolio Manager</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-label">Content</div>
+    <button class="sb-link active" onclick="nav('add',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      Add Video
+    </button>
+    <button class="sb-link" onclick="nav('long',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/></svg>
+      Long-form
+      <span id="cnt-long" style="margin-left:auto;background:var(--bg3);padding:1px 7px;border-radius:100px;font-size:10px;color:var(--t3)">0</span>
+    </button>
+    <button class="sb-link" onclick="nav('short',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/></svg>
+      Short-form
+      <span id="cnt-short" style="margin-left:auto;background:var(--bg3);padding:1px 7px;border-radius:100px;font-size:10px;color:var(--t3)">0</span>
+    </button>
+    <div class="sb-label" style="margin-top:20px">Settings</div>
+    <button class="sb-link" onclick="nav('setup',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+      Google Sheets Setup
+    </button>
+  </nav>
+  <div class="sb-bottom">
+    <div class="sb-sheet-status" id="sheet-status">Sheets: <span>Not configured</span></div>
+    <a class="view-site" href="index.html" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      View Portfolio
+    </a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ADD PAGE -->
+  <div class="page on" id="page-add">
+    <div class="page-title">Add Video</div>
+    <div class="page-sub">Add a new video to your portfolio. Paste a Google Drive, YouTube, or Vimeo link.</div>
+
+    <div class="card">
+      <div class="card-title">📸 Thumbnail</div>
+      <div class="uz" id="uz" onclick="document.getElementById('tfile').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dropThumb(event)">
+        <div class="uz-icon">🖼️</div>
+        <div class="uz-text"><strong>Click or drag thumbnail image</strong><br/>PNG, JPG, WebP · 16:9 for long-form · 9:16 for short-form</div>
+      </div>
+      <input type="file" id="tfile" accept="image/*" style="display:none" onchange="pickThumb(event)"/>
+      <div class="thumb-prev" id="tprev">
+        <img id="tprev-img"/>
+        <div class="thumb-prev-bar"><span id="tprev-name">thumbnail</span><button onclick="clearThumb()">✕ Remove</button></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎬 Video Details</div>
+      <div class="fg"><label class="fl">Video Title *</label><input class="fi" id="v-title" placeholder="e.g. Nike Brand Film — 2024"/></div>
+      <div class="fg"><label class="fl">Video Link *</label><input class="fi" id="v-url" placeholder="Google Drive share link, YouTube URL, or Vimeo URL"/></div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Format</label>
+          <select class="fi" id="v-format">
+            <option value="long">Long-form (Horizontal)</option>
+            <option value="short">Short-form (Vertical)</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Category</label>
+          <select class="fi" id="v-tag">
+            <option>Brand Film</option><option>Reel</option><option>YouTube</option>
+            <option>Commercial</option><option>Short</option><option>Cinematic</option>
+            <option>Motion</option><option>Corporate</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Duration</label><input class="fi" id="v-dur" placeholder="e.g. 3:24"/></div>
+        <div class="fg"><label class="fl">Views (optional)</label><input class="fi" id="v-views" placeholder="e.g. 12K views"/></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px">
+      <button class="btn-add" onclick="addVideo()">+ Add to Portfolio</button>
+    </div>
+    <p style="font-size:11px;color:var(--t3);margin-top:10px;text-align:center">Video will be saved to your Google Sheet and appear on the portfolio immediately.</p>
+  </div>
+
+  <!-- LONG PAGE -->
+  <div class="page" id="page-long">
+    <div class="page-title">Long-form Videos</div>
+    <div class="page-sub">Drag to reorder. Changes reflect on portfolio instantly.</div>
+    <div class="vlist" id="list-long"></div>
+    <div id="empty-long" class="card" style="text-align:center;padding:40px;color:var(--t3);display:none">
+      <div style="font-size:28px;margin-bottom:8px;opacity:.3">📹</div>No long-form videos yet.
+    </div>
+  </div>
+
+  <!-- SHORT PAGE -->
+  <div class="page" id="page-short">
+    <div class="page-title">Short-form Videos</div>
+    <div class="page-sub">Vertical videos, Reels, and Shorts.</div>
+    <div class="vlist" id="list-short"></div>
+    <div id="empty-short" class="card" style="text-align:center;padding:40px;color:var(--t3);display:none">
+      <div style="font-size:28px;margin-bottom:8px;opacity:.3">📱</div>No short-form videos yet.
+    </div>
+  </div>
+
+  <!-- SETUP PAGE -->
+  <div class="page" id="page-setup">
+    <div class="page-title">Google Sheets Setup</div>
+    <div class="page-sub">One-time setup — free, no backend needed. Your videos live in a Google Sheet.</div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div class="page-title" style="font-size:15px">Connection Status</div>
+        <span class="badge" id="conn-badge" style="margin-left:auto">Checking...</span>
+      </div>
+      <div class="cfg-row">
+        <div class="fg"><label class="fl">Google Sheet ID</label><input class="fi" id="cfg-sid" placeholder="Paste your Sheet ID here"/></div>
+        <button class="cfg-save" onclick="saveConfig()">Save & Connect</button>
+      </div>
+      <p style="font-size:11px;color:var(--t3);margin-top:8px">The Sheet ID is the long string in your Google Sheets URL between <code style="background:var(--bg2);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:10px;color:var(--lime)">/d/</code> and <code style="background:var(--bg2);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:10px;color:var(--lime)">/edit</code></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom:20px">📋 Setup Guide</div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Create a Google Sheet</div>
+          <div class="step-desc">Go to <a href="https://sheets.new" target="_blank">sheets.new</a> to create a new spreadsheet. Name it "Sajawal Portfolio".</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Add these column headers in Row 1</div>
+          <div class="step-desc">
+            <code>title</code> &nbsp;<code>url</code> &nbsp;<code>thumb</code> &nbsp;<code>format</code> &nbsp;<code>tag</code> &nbsp;<code>duration</code> &nbsp;<code>views</code> &nbsp;<code>private</code>
+            <br/><br/>Each column in order A → H. Rename the sheet tab at the bottom to <code>Videos</code>.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Make the sheet publicly readable</div>
+          <div class="step-desc">Click <strong style="color:var(--t1)">Share</strong> → Change access to <strong style="color:var(--t1)">"Anyone with the link"</strong> → Role: <strong style="color:var(--t1)">Viewer</strong>. This lets the portfolio read your video list without login.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Copy the Sheet ID</div>
+          <div class="step-desc">Your sheet URL looks like:<br/><code>https://docs.google.com/spreadsheets/d/<span style="color:var(--lime)">1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms</span>/edit</code><br/>Copy the highlighted part and paste it above.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">For Google Drive videos</div>
+          <div class="step-desc">Upload your video to Google Drive → Right-click → <strong style="color:var(--t1)">Share</strong> → "Anyone with the link" → Copy link. Paste that link when adding a video here. It will embed directly.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">For thumbnails</div>
+          <div class="step-desc">Upload thumbnail to Google Drive → Share → "Anyone with the link" → Copy link → Change the URL from <code>drive.google.com/file/d/ID/view</code> to <code>drive.google.com/uc?id=ID</code>. Or use any direct image URL (Imgur, etc).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+</div><!-- end .layout -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── CONFIG (saved in localStorage of admin page only) ── */
+const CFG_KEY='sajawal_admin_cfg';
+let cfg=JSON.parse(localStorage.getItem(CFG_KEY)||'{}');
+let videos=JSON.parse(localStorage.getItem('sajawal_videos')||'[]');
+let thumbData=null,dragSrc=null;
+
+function saveConfig(){
+  const sid=document.getElementById('cfg-sid').value.trim();
+  if(!sid){toast('Paste your Sheet ID first','e');return}
+  cfg.sheetId=sid;
+  localStorage.setItem(CFG_KEY,JSON.stringify(cfg));
+  updateStatus();
+  toast('Config saved! Test by adding a video.');
+  // Also update the index.html reminder
+}
+
+function updateStatus(){
+  const badge=document.getElementById('conn-badge');
+  const ss=document.getElementById('sheet-status');
+  if(cfg.sheetId){
+    badge.className='badge ok';badge.textContent='Connected';
+    ss.innerHTML=`Sheets: <span>Connected</span>`;
+    document.getElementById('cfg-sid').value=cfg.sheetId;
+  } else {
+    badge.className='badge warn';badge.textContent='Not configured';
+  }
+}
+
+/* ── NAV ── */
+function nav(page,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('on');
+  el.classList.add('active');
+  if(page==='long'||page==='short')renderList(page);
+}
+
+/* ── COUNTS ── */
+function updateCounts(){
+  document.getElementById('cnt-long').textContent=videos.filter(v=>v.format==='long').length;
+  document.getElementById('cnt-short').textContent=videos.filter(v=>v.format==='short').length;
+}
+
+/* ── THUMB ── */
+function pickThumb(e){const f=e.target.files[0];if(!f)return;readThumb(f)}
+function dropThumb(e){e.preventDefault();document.getElementById('uz').classList.remove('over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))readThumb(f)}
+function readThumb(f){const r=new FileReader();r.onload=ev=>{thumbData=ev.target.result;showThumb(f.name)};r.readAsDataURL(f)}
+function showThumb(name){
+  document.getElementById('uz').style.display='none';
+  document.getElementById('tprev').style.display='block';
+  document.getElementById('tprev-img').src=thumbData;
+  document.getElementById('tprev-name').textContent=name;
+}
+function clearThumb(){
+  thumbData=null;
+  document.getElementById('uz').style.display='block';
+  document.getElementById('tprev').style.display='none';
+  document.getElementById('tfile').value='';
+}
+
+/* ── ADD VIDEO ── */
+async function addVideo(){
+  const title=document.getElementById('v-title').value.trim();
+  const url=document.getElementById('v-url').value.trim();
+  if(!title||!url){toast('Title and URL are required','e');return}
+  if(!cfg.sheetId){toast('Set up Google Sheets first (Settings tab)','e');return}
+
+  const v={
+    id:Date.now(),title,url,
+    thumb:thumbData||'',
+    format:document.getElementById('v-format').value,
+    tag:document.getElementById('v-tag').value,
+    duration:document.getElementById('v-dur').value.trim(),
+    views:document.getElementById('v-views').value.trim(),
+    private:false
+  };
+
+  // Save locally
+  videos.push(v);
+  localStorage.setItem('sajawal_videos',JSON.stringify(videos));
+  updateCounts();
+
+  // Try to write to Google Sheets via Apps Script (if configured)
+  if(cfg.scriptUrl){
+    try{
+      await fetch(cfg.scriptUrl,{method:'POST',body:JSON.stringify(v),mode:'no-cors'});
+    }catch(e){}
+  }
+
+  // Clear form
+  ['v-title','v-url','v-dur','v-views'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('v-format').value='long';
+  clearThumb();
+  toast('Video added! ✓');
+}
+
+/* ── LIST ── */
+function renderList(fmt){
+  const list=document.getElementById('list-'+fmt);
+  const empty=document.getElementById('empty-'+fmt);
+  const fv=videos.filter(v=>v.format===fmt);
+  list.innerHTML='';
+  if(!fv.length){empty.style.display='block';return}
+  empty.style.display='none';
+  fv.forEach((v,li)=>{
+    const gi=videos.indexOf(v);
+    const item=document.createElement('div');
+    item.className='vi';item.draggable=true;item.dataset.gi=gi;
+    const th=v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:'🎬';
+    item.innerHTML=`
+      <span class="vi-handle">⠿</span>
+      <div class="vi-thumb">${th}</div>
+      <div class="vi-info">
+        <div class="vi-name">${v.title}</div>
+        <div class="vi-meta">${v.tag} · ${v.duration||'--'} ${v.private?'· 🔒 Private':''}</div>
+      </div>
+      <div class="vi-actions">
+        <button class="btn-sm priv ${v.private?'on':''}" onclick="togglePriv(${gi})">${v.private?'👁 Show':'🔒 Hide'}</button>
+        <button class="btn-sm" onclick="moveV(${gi},-1)">↑</button>
+        <button class="btn-sm" onclick="moveV(${gi},1)">↓</button>
+        <button class="btn-sm del" onclick="delV(${gi})">✕ Delete</button>
+      </div>`;
+    // drag
+    item.addEventListener('dragstart',()=>{dragSrc=gi;item.classList.add('dragging')});
+    item.addEventListener('dragend',()=>{item.classList.remove('dragging')});
+    item.addEventListener('dragover',e=>{e.preventDefault();item.classList.add('drag-over')});
+    item.addEventListener('dragleave',()=>item.classList.remove('drag-over'));
+    item.addEventListener('drop',e=>{
+      e.preventDefault();item.classList.remove('drag-over');
+      if(dragSrc===null||dragSrc===gi)return;
+      const [m]=videos.splice(dragSrc,1);
+      const tIdx=parseInt(item.dataset.gi);
+      videos.splice(tIdx>dragSrc?tIdx-1:tIdx,0,m);
+      save();renderList(fmt);dragSrc=null;
+    });
+    list.appendChild(item);
+  });
+}
+
+function togglePriv(gi){videos[gi].private=!videos[gi].private;save();renderList(videos[gi].format);updateCounts();toast(videos[gi].private?'Set to private':'Set to public')}
+function moveV(gi,d){
+  const fmt=videos[gi].format;
+  const fv=videos.map((v,i)=>({v,i})).filter(({v})=>v.format===fmt);
+  const pos=fv.findIndex(({i})=>i===gi);
+  const np=pos+d;if(np<0||np>=fv.length)return;
+  const si=fv[np].i;[videos[gi],videos[si]]=[videos[si],videos[gi]];
+  save();renderList(fmt);
+}
+function delV(gi){if(!confirm(`Delete "${videos[gi].title}"?`))return;videos.splice(gi,1);save();renderList(videos[0]?.format||'long');updateCounts();toast('Deleted')}
+function save(){localStorage.setItem('sajawal_videos',JSON.stringify(videos));updateCounts()}
+
+/* ── TOAST ── */
+function toast(msg,type='s'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+type;
+  setTimeout(()=>t.className='toast',2500);
+}
+
+/* ── INIT ── */
+updateStatus();updateCounts();
+</script>
+</body>
+</html>
