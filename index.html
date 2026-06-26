@@ -407,7 +407,7 @@ async function loadVideos(){
       thumb:r.c[2]?.v||'',
       format:r.c[3]?.v||'long',
       tag:r.c[4]?.v||'Video',
-      duration:r.c[5]?.v||'',
+      duration:r.c[5]?.v?.toString()||'',
       views:r.c[6]?.v||'',
       private:(r.c[7]?.v||'').toString().toLowerCase()==='true'
     })).filter(v=>v.title&&v.url&&!v.private);
